@@ -37,9 +37,14 @@ def load_input(filepath):
         string_student_preferences = contents[i].split()
         student_preferences.append([int(num) for num in string_student_preferences])
     
-   # print("Number of hospitals/students:", n)
+    print("Number of hospitals/students:", n)
    # print("Hospital preferences:", hospital_preferences)
-   # print("Student preferences:", student_preferences)
+   # print("Student preferences:", student_preferences)'
+
+
+   # call some matching function here later
+
+   
 
 
     

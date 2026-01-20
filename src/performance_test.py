@@ -1,5 +1,6 @@
 #generate tests files
 import time 
+import random
 from matcher import load_input
 
 
@@ -16,13 +17,23 @@ def generate_test_file(filepath, n, hospital_preferences, student_preferences):
             file.write(line + "\n")
 
 def performance_test():
-    n_values = [1,2,4,8,16,32,64,128,256,512,10000]
+    n_values = [1,2,4,8,16,32,64,128,256,512]
     
     for n in n_values:
-        #  dummy preferences for testing
-        hospital_preferences = [list(range(1, n+1)) for _ in range(n)]
-        student_preferences = [list(range(1, n+1)) for _ in range(n)]
-        
+        # generate a random preference list for each hospital and student
+        hospital_preferences = []
+        student_preferences = []  
+        for i in range(n):
+            pref = list(range(1, n+1))
+            random.shuffle(pref)
+            hospital_preferences.append(pref)     
+
+        for i in range(n):
+            pref = list(range(1, n+1))
+            random.shuffle(pref)
+            student_preferences.append(pref)
+
+
         filepath = f"test_{n}.in"
         generate_test_file(filepath, n, hospital_preferences, student_preferences)
         

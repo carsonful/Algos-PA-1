@@ -1,0 +1,5 @@
+test_*.in
+test_*.out
+.vscode/
+__pycache__/
+*.pyc

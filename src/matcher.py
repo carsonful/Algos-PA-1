@@ -122,7 +122,7 @@ def gale_shapley(hospital_preferences, student_preferences):
                 # Student is free
                 hospital_match[h] = pref # set hospital match to its applicant 
                 student_match[pref - 1] = h + 1 # set student's match to hospital
-                print(f"Hospital {h+1} matched with Student {pref}.")
+               # print(f"Hospital {h+1} matched with Student {pref}.")
                 break # exit for loop since hospital is no longer free
 
 
@@ -135,33 +135,25 @@ def gale_shapley(hospital_preferences, student_preferences):
 
                 if student_pref_list.index(h + 1) < student_pref_list.index(current_hospital):
                     # Student prefers new hospital
-                    print(f"Student {pref} prefers Hospital {h+1} over Hospital {current_hospital}.")
+                    # print(f"Student {pref} prefers Hospital {h+1} over Hospital {current_hospital}.")
                     hospital_match[h] = pref # set new hospital match to student
                     student_match[pref - 1] = h + 1 # set student match to new hospital
                     # Previous hospital becomes free
                     h_stack.append(current_hospital - 1) # add previous hospital back to free stack
                     hospital_match[current_hospital - 1] = None # unset previous hospital's match
-                    print(f"Hospital {current_hospital} is now free.")
+                    # print(f"Hospital {current_hospital} is now free.")
                     break # exit for loop since hospital is no longer free
 
 
                 else:
-                    print(f"Student {pref} rejects Hospital {h+1}.")
+                    # print(f"Student {pref} rejects Hospital {h+1}.")
                     h_pref[h].remove(pref)  # Remove student from hospital's preference list
                     h_stack.append(h)  # Hospital remains free
                     break # exit for loop since hospital is still free
-
-
-
-
-
-
-
-    
 
     print("Final Hospital Matches:", hospital_match)
     print("Final Student Matches:", student_match)
 
 
-
-load_input("../tests/ex.in")
+if __name__ == "__main__":
+    load_input("../tests/ex.in")

@@ -50,7 +50,7 @@ def checkPreferences(current_hospital, current_student, student_preferences):
     return True # True = student DOES prefer the current_hospital over their own match
 
 def run_gale_shapley(hospital_preferences, student_preferences):
-    # make a copy of the preferences as we are altering them (deleting after we've proposed)
+    # make a copy of the preferences as we are altering them (delete if they unmatch)
     h_pref = hospital_preferences
     s_pref = student_preferences
 
@@ -69,43 +69,26 @@ def run_gale_shapley(hospital_preferences, student_preferences):
         current_hospital = hospital_matches.index(-1) + 1 # index = 0 -> hospital = 1
 
         # find top student from current_hospital's preference list (pretend the list is a queue)
-        current_student = h_pref[0] # if we already proposed to them, they wont be in this list
+        current_student = h_pref[current_hospital - 1][0] # if we already proposed to them, they wont be in this list
 
-        # check if a is free
+        # check if student is free
         if(student_matches[current_student-1] == -1):
             student_matches[current_student-1] = current_hospital
+            hospital_matches[current_hospital - 1] = current_student
+
         elif(checkPreferences(current_hospital, current_student, student_preferences) == True):
             # set the student's old hospital to unmatched
             old_hospital = student_matches[current_student-1]
-            hospital_matches[old_hospital] = -1
+            hospital_matches[old_hospital-1] = -1
             
-            # remove the student from the hospital's preferences so it doesn't propose to it again
-            h_pref.pop(0)
+            # remove the student from the old hospital's preferences so it doesn't propose to it again
+            h_pref[old_hospital - 1].pop(0)
 
-            # set the student's new hospital match
+            # set the student and hospital matches
             student_matches[current_student-1] = current_hospital
+            hospital_matches[current_hospital - 1] = current_student
         else:
-            # rejection case need to work on
-            
-
-            
-
-            
-
-
-
-
-
-
-
-
-
-    
-
-   
-
-
-    
-   
-   
+            # rejection case - checkPreferences == False
+            h_pref[current_hospital-1].pop(0)
+        
 load_input("../tests/ex.in")

@@ -40,7 +40,7 @@ def load_input(filepath):
     print("Number of hospitals/students:", n)
     # print("Hospital preferences:", hospital_preferences)
     # print("Student preferences:", student_preferences)
-
+    gale_shapley(hospital_preferences, student_preferences)
     # check for edge cases as per instructions: empty file and 1 hospital/student, equal number of hospital and students
     # call some matching function here later
 
@@ -49,6 +49,8 @@ def checkPreferences(current_hospital, current_student, student_preferences):
     # place holder for now
     return True # True = student DOES prefer the current_hospital over their own match
 
+
+"""
 def run_gale_shapley(hospital_preferences, student_preferences):
     # make a copy of the preferences as we are altering them (delete if they unmatch)
     h_pref = hospital_preferences
@@ -90,5 +92,68 @@ def run_gale_shapley(hospital_preferences, student_preferences):
         else:
             # rejection case - checkPreferences == False
             h_pref[current_hospital-1].pop(0)
-        
-load_input("../tests/ex.in")
+
+            
+"""
+
+def gale_shapley(hospital_preferences, student_preferences):
+    
+
+
+    h_pref = hospital_preferences
+    s_pref = student_preferences
+
+    hospital_match = [None for none in range(len(hospital_preferences))]
+    student_match = [None for none in range(len(student_preferences))]
+    n = len(hospital_preferences)
+    h_stack = [i for i in range(n)]  # stack of free hospitals
+    print(student_match)
+    print(hospital_match)
+
+    # -1 IS THE TRUE INDEX OF THE STUDENT/HOSPITAL 
+
+
+    while h_stack: # while there is a free hospital
+        h = h_stack.pop() 
+        print(f"Hospital {h+1} is free and looking for a match.")
+
+        for pref in h_pref[h]: # iterate through hospital's preference list
+            if (student_match[pref - 1] is None): 
+                # Student is free
+                hospital_match[h] = pref # set hospital match to its applicant 
+                student_match[pref - 1] = h + 1 # set student's match to hospital
+               # print(f"Hospital {h+1} matched with Student {pref}.")
+                break # exit for loop since hospital is no longer free
+
+
+
+            elif(student_match[pref-1] is not None):
+                # check if student prefers this hospital over current match
+                current_hospital = student_match[pref - 1] # get current hospital matched to student
+                student_pref_list = s_pref[pref - 1] # get student's preference list
+
+
+                if student_pref_list.index(h + 1) < student_pref_list.index(current_hospital):
+                    # Student prefers new hospital
+                    # print(f"Student {pref} prefers Hospital {h+1} over Hospital {current_hospital}.")
+                    hospital_match[h] = pref # set new hospital match to student
+                    student_match[pref - 1] = h + 1 # set student match to new hospital
+                    # Previous hospital becomes free
+                    h_stack.append(current_hospital - 1) # add previous hospital back to free stack
+                    hospital_match[current_hospital - 1] = None # unset previous hospital's match
+                    # print(f"Hospital {current_hospital} is now free.")
+                    break # exit for loop since hospital is no longer free
+
+
+                else:
+                    # print(f"Student {pref} rejects Hospital {h+1}.")
+                    h_pref[h].remove(pref)  # Remove student from hospital's preference list
+                    h_stack.append(h)  # Hospital remains free
+                    break # exit for loop since hospital is still free
+
+    print("Final Hospital Matches:", hospital_match)
+    print("Final Student Matches:", student_match)
+
+
+if __name__ == "__main__":
+    load_input("../tests/ex.in")

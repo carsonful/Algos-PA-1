@@ -18,6 +18,8 @@ while (some hospital is free and hasn't been matched/assigned to every applicant
 
 """
 
+from matcher import verifyMatches
+
 def load_input(filepath):
     hospital_preferences = []
     student_preferences = []
@@ -138,6 +140,8 @@ def gale_shapley(hospital_preferences, student_preferences):
 
     print("Final Hospital Matches:", hospital_match)
     print("Final Student Matches:", student_match)
+
+    verifyMatches(hospital_match, student_match, hospital_preferences, student_preferences)
 
 
 if __name__ == "__main__":

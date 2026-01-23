@@ -2,6 +2,7 @@
 import time 
 import random
 from matcher import load_input
+from verifier import verifyMatches
 
 
 def generate_test_file(filepath, n, hospital_preferences, student_preferences):

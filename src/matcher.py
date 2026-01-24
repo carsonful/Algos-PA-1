@@ -1,4 +1,5 @@
 # Task A: Matching Engine
+import os
 
 """
 Pseudocode for Algorithm (Source: Chapter-1-2026 PowerPoint)
@@ -24,27 +25,46 @@ def load_input(filepath):
     hospital_preferences = []
     student_preferences = []
 
+    # check for empty file
+    if(os.path.getsize(filepath) == 0):
+        print("Input file is empty.")
+        return
+
     with open(filepath, "r") as file:
         contents = [line.rstrip() for line in file]
 
     n = int(contents[0])
+    
+    # check for valid n
+    if(n < 1):
+        print("Invalid number of hospitals/students:", n)
+
+    # check for valid number of lines
+    if len(contents) != (2*n + 1):
+        print("Invalid number of lines in input file.")
+        return
 
     # hospital preferences
     for i in range (1, n+1):
         string_hospital_preferences = contents[i].split()
+        if(len(string_hospital_preferences) != n):
+            print("A hospital preference list does not contain n values.")
+            return
         hospital_preferences.append([int(num) for num in string_hospital_preferences])
 
     # student preferences
     for i in range (n+1, 2*n+1):
         string_student_preferences = contents[i].split()
+        if(len(string_student_preferences) != n):
+            print("A student preference list does not contain n values.")
+            return
         student_preferences.append([int(num) for num in string_student_preferences])
-    
+
+
     print("Number of hospitals/students:", n)
     # print("Hospital preferences:", hospital_preferences)
     # print("Student preferences:", student_preferences)
     gale_shapley(hospital_preferences, student_preferences)
-    # check for edge cases as per instructions: empty file and 1 hospital/student, equal number of hospital and students
-    # call some matching function here later
 
 # krithika's fixed version
 def run_gale_shapley(hospital_preferences, student_preferences):

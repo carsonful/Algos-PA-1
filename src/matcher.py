@@ -1,5 +1,6 @@
 # Task A: Matching Engine
 import os
+import copy
 
 """
 Pseudocode for Algorithm (Source: Chapter-1-2026 PowerPoint)
@@ -19,7 +20,7 @@ while (some hospital is free and hasn't been matched/assigned to every applicant
 
 """
 
-from matcher import verifyMatches
+from verifier import verifyMatches
 
 def load_input(filepath):
     hospital_preferences = []
@@ -64,12 +65,15 @@ def load_input(filepath):
     print("Number of hospitals/students:", n)
     # print("Hospital preferences:", hospital_preferences)
     # print("Student preferences:", student_preferences)
-    gale_shapley(hospital_preferences, student_preferences)
 
-# krithika's fixed version
+    # both seem to work
+    #gale_shapley(hospital_preferences, student_preferences)
+    run_gale_shapley(hospital_preferences, student_preferences)
+    
+# needs to be fixed due to logic errors
 def run_gale_shapley(hospital_preferences, student_preferences):
-    h_pref = hospital_preferences
-    s_pref = student_preferences
+    h_pref = copy.deepcopy(hospital_preferences)
+    s_pref = copy.deepcopy(student_preferences)
 
     n = len(hospital_preferences)
     hospital_matches = [None] * n # ex: [-1, -1, 2] where hospital 3 is matched to student 2
@@ -97,7 +101,7 @@ def run_gale_shapley(hospital_preferences, student_preferences):
                 hospital_matches[old_hospital-1] = -1
                 
                 # remove the student from the old hospital's preferences so it doesn't propose to it again
-                h_pref[old_hospital - 1].pop(0)
+                h_pref[old_hospital - 1].pop()
 
                 # set the student and hospital matches
                 student_matches[current_student-1] = current_hospital
@@ -107,10 +111,15 @@ def run_gale_shapley(hospital_preferences, student_preferences):
                 h_pref[current_hospital-1].pop(0)
                 # The same hospital continues to the next person in the while loop until it matches with a student
 
+    for hospital_index, student in enumerate(hospital_matches):
+            print(hospital_index, student)
+            
+    verifyMatches(hospital_matches, student_matches, hospital_preferences, student_preferences)
 
+# needs to be fixed as it says unstable for ex2.in
 def gale_shapley(hospital_preferences, student_preferences):
-    h_pref = hospital_preferences
-    s_pref = student_preferences
+    h_pref = copy.deepcopy(hospital_preferences)
+    s_pref = copy.deepcopy(student_preferences)
 
     hospital_match = [None for none in range(len(hospital_preferences))]
     student_match = [None for none in range(len(student_preferences))]

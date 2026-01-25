@@ -66,11 +66,10 @@ def load_input(filepath):
     # print("Hospital preferences:", hospital_preferences)
     # print("Student preferences:", student_preferences)
 
-    # both seem to work
-    #gale_shapley(hospital_preferences, student_preferences)
+    gale_shapley(hospital_preferences, student_preferences)
     run_gale_shapley(hospital_preferences, student_preferences)
     
-# needs to be fixed due to logic errors
+# fixed as of now?
 def run_gale_shapley(hospital_preferences, student_preferences):
     h_pref = copy.deepcopy(hospital_preferences)
     s_pref = copy.deepcopy(student_preferences)
@@ -98,10 +97,10 @@ def run_gale_shapley(hospital_preferences, student_preferences):
             if(student_pref_list.index(current_hospital) < student_pref_list.index(student_current_match)):
                 # set the student's old hospital to unmatched
                 old_hospital = student_matches[current_student-1]
-                hospital_matches[old_hospital-1] = -1
+                hospital_matches[old_hospital-1] = None
                 
                 # remove the student from the old hospital's preferences so it doesn't propose to it again
-                h_pref[old_hospital - 1].pop()
+                h_pref[old_hospital - 1].remove(current_student)
 
                 # set the student and hospital matches
                 student_matches[current_student-1] = current_hospital
@@ -116,7 +115,7 @@ def run_gale_shapley(hospital_preferences, student_preferences):
             
     verifyMatches(hospital_matches, student_matches, hospital_preferences, student_preferences)
 
-# needs to be fixed as it says unstable for ex2.in
+# needs to be fixed as it says unstable for ex.in
 def gale_shapley(hospital_preferences, student_preferences):
     h_pref = copy.deepcopy(hospital_preferences)
     s_pref = copy.deepcopy(student_preferences)
@@ -171,7 +170,6 @@ def gale_shapley(hospital_preferences, student_preferences):
     print("Final Student Matches:", student_match)
 
     verifyMatches(hospital_match, student_match, hospital_preferences, student_preferences)
-
 
 if __name__ == "__main__":
     load_input("../tests/ex.in")

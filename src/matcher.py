@@ -67,7 +67,7 @@ def load_input(filepath):
     # print("Student preferences:", student_preferences)
 
     gale_shapley(hospital_preferences, student_preferences)
-    run_gale_shapley(hospital_preferences, student_preferences)
+    #run_gale_shapley(hospital_preferences, student_preferences)
     
 # fixed as of now?
 def run_gale_shapley(hospital_preferences, student_preferences):
@@ -133,7 +133,8 @@ def gale_shapley(hospital_preferences, student_preferences):
         h = h_stack.pop() 
         print(f"Hospital {h+1} is free and looking for a match.")
 
-        for pref in h_pref[h]: # iterate through hospital's preference list
+        while h_pref[h]: # iterate through hospital's preference list
+            pref = h_pref[h][0]  # get the top preference
             if (student_match[pref - 1] is None): 
                 # Student is free
                 hospital_match[h] = pref # set hospital match to its applicant 
@@ -163,8 +164,7 @@ def gale_shapley(hospital_preferences, student_preferences):
 
                 else:
                     # print(f"Student {pref} rejects Hospital {h+1}.")
-                    h_pref[h].remove(pref)  # Remove student from hospital's preference list
-                    continue # continue to next preference in the list within the for loop
+                    h_pref[h].pop(0)  # remove student from hospital's preference list
 
     print("Final Hospital Matches:", hospital_match)
     print("Final Student Matches:", student_match)

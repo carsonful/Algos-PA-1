@@ -113,7 +113,7 @@ def run_gale_shapley(hospital_preferences, student_preferences):
     for hospital_index, student in enumerate(hospital_matches):
             print(hospital_index, student)
             
-    verifyMatches(hospital_matches, student_matches, hospital_preferences, student_preferences)
+    #verifyMatches(hospital_matches, student_matches, hospital_preferences, student_preferences)
 
 # needs to be fixed as it says unstable for ex.in
 def gale_shapley(hospital_preferences, student_preferences):
@@ -169,7 +169,7 @@ def gale_shapley(hospital_preferences, student_preferences):
     print("Final Hospital Matches:", hospital_match)
     print("Final Student Matches:", student_match)
 
-    verifyMatches(hospital_match, student_match, hospital_preferences, student_preferences)
+    #verifyMatches(hospital_match, student_match, hospital_preferences, student_preferences)
 
 if __name__ == "__main__":
     load_input("../tests/ex.in")

@@ -22,7 +22,7 @@ while (some hospital is free and hasn't been matched/assigned to every applicant
 
 from verifier import verifyMatches
 
-def load_input(filepath):
+def load_preferences(filepath):
     hospital_preferences = []
     student_preferences = []
 
@@ -62,61 +62,14 @@ def load_input(filepath):
         student_preferences.append([int(num) for num in string_student_preferences])
 
 
-    print("Number of hospitals/students:", n)
+    # print("Number of hospitals/students:", n)
     # print("Hospital preferences:", hospital_preferences)
     # print("Student preferences:", student_preferences)
 
-    gale_shapley(hospital_preferences, student_preferences)
-    #run_gale_shapley(hospital_preferences, student_preferences)
-    
-# fixed as of now?
-def run_gale_shapley(hospital_preferences, student_preferences):
-    h_pref = copy.deepcopy(hospital_preferences)
-    s_pref = copy.deepcopy(student_preferences)
+    return hospital_preferences, student_preferences
 
-    n = len(hospital_preferences)
-    hospital_matches = [None] * n # ex: [-1, -1, 2] where hospital 3 is matched to student 2
-    student_matches = [None] * n # ex: [-1, 3, -1] where student 2 is matched to hospital 3
-    
-    while(None in hospital_matches):
-        # choose the first occurrence of None
-        current_hospital = hospital_matches.index(None) + 1 # index = 0 -> hospital = 1
 
-        # find top student from current_hospital's preference list (pretend the list is a queue)
-        current_student = h_pref[current_hospital - 1][0] # if we already proposed to them and later unmatched, they wont be in this list
-
-        # check if student is free
-        if(student_matches[current_student-1] == None):
-            student_matches[current_student-1] = current_hospital
-            hospital_matches[current_hospital - 1] = current_student
-
-        else:
-            student_current_match = student_matches[current_student-1]
-            student_pref_list = s_pref[current_student - 1]
-
-            if(student_pref_list.index(current_hospital) < student_pref_list.index(student_current_match)):
-                # set the student's old hospital to unmatched
-                old_hospital = student_matches[current_student-1]
-                hospital_matches[old_hospital-1] = None
-                
-                # remove the student from the old hospital's preferences so it doesn't propose to it again
-                h_pref[old_hospital - 1].remove(current_student)
-
-                # set the student and hospital matches
-                student_matches[current_student-1] = current_hospital
-                hospital_matches[current_hospital - 1] = current_student
-            else:
-                # rejection case
-                h_pref[current_hospital-1].pop(0)
-                # The same hospital continues to the next person in the while loop until it matches with a student
-
-    for hospital_index, student in enumerate(hospital_matches):
-            print(hospital_index, student)
-            
-    #verifyMatches(hospital_matches, student_matches, hospital_preferences, student_preferences)
-
-# needs to be fixed as it says unstable for ex.in
-def gale_shapley(hospital_preferences, student_preferences):
+def gale_shapley(hospital_preferences, student_preferences, output_file):
     h_pref = copy.deepcopy(hospital_preferences)
     s_pref = copy.deepcopy(student_preferences)
 
@@ -124,8 +77,6 @@ def gale_shapley(hospital_preferences, student_preferences):
     student_match = [None for none in range(len(student_preferences))]
     n = len(hospital_preferences)
     h_stack = [i for i in range(n)]  # stack of free hospitals
-    print(student_match)
-    print(hospital_match)
 
     # -1 IS THE TRUE INDEX OF THE STUDENT/HOSPITAL 
 
@@ -166,10 +117,21 @@ def gale_shapley(hospital_preferences, student_preferences):
                     # print(f"Student {pref} rejects Hospital {h+1}.")
                     h_pref[h].pop(0)  # remove student from hospital's preference list
 
-    print("Final Hospital Matches:", hospital_match)
-    print("Final Student Matches:", student_match)
+    # print to console
+    print("Final Matches: ")
+    for hospital, student in enumerate(hospital_match):
+            print((f"{hospital + 1} {student}"))
 
-    #verifyMatches(hospital_match, student_match, hospital_preferences, student_preferences)
+    # create output file
+    with open(output_file, "w") as file:
+        for hospital, student in enumerate(hospital_match):
+            file.write(f"{hospital + 1} {student}\n")
+    
+    # return matches for later use
+    return hospital_match, student_match
+
 
 if __name__ == "__main__":
-    load_input("../tests/ex.in")
+    hospital_preferences, student_preferences = load_preferences("../tests/ex.in")
+    hospital_matches, student_matches = gale_shapley(hospital_preferences, student_preferences, "../tests/ex.out")
+    verifyMatches(hospital_matches, student_matches, hospital_preferences, student_preferences)

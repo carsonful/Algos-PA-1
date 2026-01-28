@@ -24,7 +24,7 @@ def verifyMatches(hospital_matches, student_matches, hospital_preferences, stude
         
         # Find students that are ranked higher than current match
         higher_ranked_students = [hospital_preferences[hospital_index][i] for i in range(0, student_matched_rank)]
-        print("Hospital", hospital_index+1, "has higher ranked students ", higher_ranked_students)
+        # print("Hospital", hospital_index+1, "has higher ranked students ", higher_ranked_students)
 
         # Check if the higher ranked students prefer this hospital more over their matching
         for higher_student in higher_ranked_students:

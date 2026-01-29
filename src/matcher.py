@@ -62,9 +62,6 @@ def load_preferences(filepath):
         student_preferences.append([int(num) for num in string_student_preferences])
 
 
-    # print("Number of hospitals/students:", n)
-    # print("Hospital preferences:", hospital_preferences)
-    # print("Student preferences:", student_preferences)
 
     return hospital_preferences, student_preferences
 
@@ -90,7 +87,6 @@ def gale_shapley(hospital_preferences, student_preferences, output_file):
                 # Student is free
                 hospital_match[h] = pref # set hospital match to its applicant 
                 student_match[pref - 1] = h + 1 # set student's match to hospital
-               # print(f"Hospital {h+1} matched with Student {pref}.")
                 break # exit for loop since hospital is no longer free
 
 
@@ -103,18 +99,15 @@ def gale_shapley(hospital_preferences, student_preferences, output_file):
 
                 if student_pref_list.index(h + 1) < student_pref_list.index(current_hospital):
                     # Student prefers new hospital
-                    # print(f"Student {pref} prefers Hospital {h+1} over Hospital {current_hospital}.")
                     hospital_match[h] = pref # set new hospital match to student
                     student_match[pref - 1] = h + 1 # set student match to new hospital
                     # Previous hospital becomes free
                     h_stack.append(current_hospital - 1) # add previous hospital back to free stack
                     hospital_match[current_hospital - 1] = None # unset previous hospital's match
-                    # print(f"Hospital {current_hospital} is now free.")
                     break # exit for loop since hospital is no longer free
 
 
                 else:
-                    # print(f"Student {pref} rejects Hospital {h+1}.")
                     h_pref[h].pop(0)  # remove student from hospital's preference list
 
     # print to console

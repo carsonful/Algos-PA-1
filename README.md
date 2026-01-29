@@ -29,7 +29,7 @@ To run the algorithm solution:
 ```bash
 cd ./src
 python3 matcher.py 
-python3 performance_Test 
+python3 performance_test.py
 ```
 
 

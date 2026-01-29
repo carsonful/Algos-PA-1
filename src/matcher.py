@@ -132,6 +132,6 @@ def gale_shapley(hospital_preferences, student_preferences, output_file):
 
 
 if __name__ == "__main__":
-    hospital_preferences, student_preferences = load_preferences("../tests/ex2.in")
-    hospital_matches, student_matches = gale_shapley(hospital_preferences, student_preferences, "../tests/ex2.out")
+    hospital_preferences, student_preferences = load_preferences("../tests/ex2.in") # change input file here
+    hospital_matches, student_matches = gale_shapley(hospital_preferences, student_preferences, "../tests/ex2.out") # change output file here
     verifyMatches(hospital_matches, student_matches, hospital_preferences, student_preferences)

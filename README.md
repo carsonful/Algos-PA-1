@@ -55,11 +55,7 @@ python3 performance_Test < ../tests/ex.in
 
 ![Our Graph](https://i.imgur.com/pKj84Kw.png)
 
-### Graph Description
- description
-### Solution
-solution stuff
-### Results
-results etc anything to add
+### Graph 
+The graph shows that our solution is O(n^2) with the increase in elements or the increase in n in the number of hospitals and patients. 
 
 

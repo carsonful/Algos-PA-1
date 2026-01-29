@@ -53,7 +53,7 @@ python3 performance_Test < ../tests/ex.in
 
 ## Task C: Graph and Solution
 
-![Our Graph](https://imgur.com/a/17HYOYf)
+![Our Graph](https://i.imgur.com/pKj84Kw.png)
 
 ### Graph Description
  description

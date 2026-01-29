@@ -28,8 +28,8 @@ Required packages:
 To run the algorithm solution:
 ```bash
 cd ./src
-python3 matcher.py < ../tests/ex.in
-python3 performance_Test < ../tests/ex.in
+python3 matcher.py 
+python3 performance_Test 
 ```
 
 

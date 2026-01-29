@@ -25,7 +25,7 @@ Required packages:
 
 
 ### Running the Program
-To verify a matching solution:
+To run the algorithm solution:
 ```bash
 cd ./src
 python3 matcher.py < ../tests/ex.in
@@ -53,7 +53,7 @@ python3 performance_Test < ../tests/ex.in
 
 ## Task C: Graph and Solution
 
-[TODO: add our graph]
+![Our Graph](https://imgur.com/a/17HYOYf)
 
 ### Graph Description
  description
